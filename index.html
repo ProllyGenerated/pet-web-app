@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #6b7280 0%, #3b82f6 100%);
+            background-attachment: fixed;
+        }
+        #fake-content {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        #video-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+        }
+        #content-video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .card {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .error-message {
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="fake-content">
+        <div class="card max-w-md w-full bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8 text-center">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 font-['Inter']">Welcome to My Website</h1>
+            <p class="text-lg text-gray-600 mb-6">Discover something amazing by clicking below!</p>
+            <button id="action-button" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-transform transform hover:scale-105 duration-300">Click Me!</button>
+        </div>
+    </div>
+    <div id="video-container">
+        <video id="content-video" controls>
+            <source src="content.mp4" type="video/mp4">
+            <p class="error-message">Sorry, the video could not be loaded. Please check the file path or browser compatibility.</p>
+        </video>
+    </div>
+    <script>
+        const contentVideo = document.getElementById('content-video');
+        const actionButton = document.getElementById('action-button');
+        if (!contentVideo) {
+            console.error('Video element not found. Check the ID or HTML structure.');
+        }
+        contentVideo.addEventListener('error', () => {
+            console.error('Video failed to load. Check file path, format, or encoding.');
+        });
+        actionButton.addEventListener('click', function() {
+            console.log('Button clicked, attempting to show and play video.');
+            document.getElementById('fake-content').style.display = 'none';
+            document.getElementById('video-container').style.display = 'block';
+            contentVideo.play().then(() => {
+                console.log('Video playback started successfully.');
+            }).catch(error => {
+                console.error('Video playback failed:', error.message);
+            });
+        });
+    </script>
+</body>
+</html>
